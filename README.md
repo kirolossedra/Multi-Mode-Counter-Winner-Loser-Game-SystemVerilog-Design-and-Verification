@@ -4,7 +4,7 @@
 # Test Cases Discussed and how to excite them :
 
 | Test Case # | Description | INIT Value | Ctrl Sequence 
-| --- | --- | --- | --- | --- |
+| --- | --- | --- | --- |
 | 1 | make sure of Loser winning functionality Making the counter increment by 2 so 7 is not reached so the Winner count doesn't Increase | 0 | 01
 | 2 | Check loser winning functionality by incrementing counter by 1 and starting at zero so eventually the loser will reach 15 points first | 0 | 00
 | 3 | alternate the count up and down and make sure winner wins (increase 1 time to 7 and decrease to 6 till the winner count to 15) | 0 | 00 - 10 ... 
