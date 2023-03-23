@@ -2,6 +2,7 @@
 
 
 # Test Cases Discussed and how to excite them :
+
 | Test Case # | Description | INIT Value | Ctrl Sequence 
 | --- | --- | --- | --- | --- |
 | 1 | make sure of Loser winning functionality Making the counter increment by 2 so 7 is not reached so the Winner count doesn't Increase | 0 | 01
@@ -12,8 +13,7 @@
 | 6 | add initial value 6 and increase by 1 , so eventually the winner will win | 6 | 00
 | 7 | add initial value 6 and decrease counter 2 so eventually loser will win | 6 | 11
 | 8 | make the count start at zero increase by 1 and then by 2 0 , 1, 3,4,6,7,1 ... Then eventualy the Winner will win | 0 | 00 - 01 ...
-| 9 | to test reset functionality , make it at zero then count up by 1 then after 4 iterations reset and give initial value 7 and make it
-count up by 2 | 0 then  7 | 00 - 01 
+| 9 | to test reset functionality  | 0 then  7 | 00 - 01 
 
 
 
