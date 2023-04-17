@@ -297,6 +297,7 @@ module MMTB_Final;
   
   CLK CL0(clk);
 
+
   initial begin
     $display("TestCase#              Status");
     rst = 1'b1;
@@ -404,6 +405,11 @@ module MMTB_Final;
         ctrl=2'b00;
         
         #25
+        
+        ////////////
+       //Test Case 3
+       /////////////
+       
          if (who== `WINNER_WON) begin
           Testcases[2] = `Test_Success;
           end
@@ -413,22 +419,163 @@ module MMTB_Final;
         
         
         
+        ///////////////////////
+        //
+        ctrl = 2'b01;
+        init = 1'b1;
+        #10
+        init = 1'b0;
         
         
-      
+        
+        #550
+        ////////////
+       //Test Case 4
+       /////////////
+       
+         if (who== `WINNER_WON) begin
+          Testcases[3] = `Test_Success;
+          end
+        else begin
+          Testcases[3] = `Test_Failed;
+        end
+        
+        
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+         ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+         ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+         #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        #10
+        ctrl = 2'b00;
+        #10
+        ctrl = 2'b01;
+        
+        #445
+        
+        //////////////
+       //Test Case 5
+       /////////////
+       
+         if (who== `WINNER_WON) begin
+          Testcases[4] = `Test_Success;
+          end
+        else begin
+          Testcases[4] = `Test_Failed;
+        end
+        
+        ///////////////
+        //Test Case  6
+        ///////////////
+        
+         
+        
+        #50
+        rst = 1'b1;
+         
+        #10
+        if (count== 0) begin
+          Testcases[5] = `Test_Success;
+          end
+        else begin
+          Testcases[5] = `Test_Failed;
+        end
+        
+rst= 1'b0;
+        
+ctrl = 2'b10;
+        #1150
+        //////////////
+       //Test Case 7 Decrement by 1
+       /////////////
+       
+         if (who== `LOSER_WON) begin
+          Testcases[6] = `Test_Success;
+          end
+        else begin
+          Testcases[6] = `Test_Failed;
+        end
+        
+        /////////////////
+        //Test case 8 Decrement by 2
+        //
+        
+ctrl = 2'b11;
+       
+#588
+       
+if (who== `LOSER_WON) begin
+          Testcases[7] = `Test_Success;
+          end
+        else begin
+          Testcases[7] = `Test_Failed;
+        end
+        
+        
+       
       
   
           
           
           
           
-            $display("TestCase#               Status");
+            $display("TestCase#                           	Status");
         foreach (Testcases[i]) begin
           if(Testcases[i])begin
-            $display("%0d                            Sucess", i+1);
+            $display("%2d                                    Success", i+1);
           end
         else begin
-          $display("%0d                            Failed", i+1);
+          $display("%2d                                    Failed", i+1);
         end
       
         
