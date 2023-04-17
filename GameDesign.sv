@@ -1,6 +1,3 @@
-
-
-
 // Code your design here
 
 
@@ -19,6 +16,8 @@
 //Z
 ////////////////////////
 
+/////////////////////////////
+`include "clock.sv"
 
 ///////////////////////// ///
 `define LOSER_WON    2'b01 //
@@ -51,7 +50,11 @@ module MMC_Game(
   output logic [1:0] who
 );
   
-  
+///////////////////////////
+//
+logic GameStart ;
+//
+//////////////////////////  
 
 
 ///////////////////////////
@@ -70,6 +73,8 @@ logic [3:0] loser_count ;
   initial begin
     winner_count = 0;
     loser_count = 0;
+    GameStart = 0;
+    
   end
 /////////////////////////
   
@@ -83,10 +88,12 @@ always @(posedge clk or posedge rst) begin
         winner <= 1'b0;
         loser <= 1'b0;
         gameover <= 1'b0;
-        who <= 2'b00;
+        who<= 2'b00;
+        
         
         
          end else begin
+         
         if (init) begin
             count <= init_val;
         end else begin
@@ -108,10 +115,14 @@ always @(posedge clk or posedge rst) begin
                 begin
                   count<=`COUNT_1_MIN;
                 end
+            else if(count == `COUNT_1_MAX)
+                begin
+                  count <= `COUNT_1_MIN+1;
+                end
               else begin
-                count<=count+2;
+                  count<=count+2;
               end
-              count<=count+2;
+                  count<=count+2;
             end
             
             
@@ -131,14 +142,20 @@ always @(posedge clk or posedge rst) begin
             
             
             
-          if(ctrl== `DW_2) begin
+          if(ctrl== `DW_2) 
+          begin
             if(count==`COUNT_2_MIN)
                 begin
                   count<=`COUNT_1_MAX;
                 end
-              else begin
-                count<=count-2;
-              end
+            else if(count == `COUNT_1_MIN)
+                begin
+                  count<= `COUNT_1_MAX -1;
+                end
+              else 
+                begin
+                  count<=count-2;
+                end
             end
             
             
@@ -223,15 +240,19 @@ always @(posedge clk or posedge rst) begin
     end else begin
       if (winner_count == `WIN_SCORE || loser_count == `WIN_SCORE) begin
             gameover <= 1'b1;
-        if (winner_count == `WIN_SCORE) begin
-                who <= `WINNER_WON;
-            end else begin
-                who <= `LOSER_WON;
-            end
+                  if (winner_count == `WIN_SCORE) begin
+                      who <= `WINNER_WON;
+                  end 
+                  else begin
+                      who <= `LOSER_WON;
+                  end
             winner_count <= 4'h0;
             loser_count <= 4'h0;
-        end else begin
+            count<=0;
+        end 
+        else begin
             gameover <= 1'b0;
+            who<=0;
         end
     end
 end
@@ -259,7 +280,7 @@ module MMTB_Final;
     logic loser;
     logic gameover;
     logic [1:0] who;
-    int  Testcases[2] ; 
+    int  Testcases[15] ; 
   
    MMC_Game uut (
         .clk(clk),
@@ -274,26 +295,24 @@ module MMTB_Final;
         .who(who)
     );
   
-  
-  initial begin
-        clk = 1'b0;
-        forever #5 clk = ~clk;
-   end
+  CLK CL0(clk);
+
   initial begin
     $display("TestCase#              Status");
     rst = 1'b1;
     ctrl = 2'b01;
     init = 1'b0;
-    init_val = 8'h0;
+    init_val = 3'h7;  // problem stuck at init val if init = 1;
+    // problem does't handle if the counter value is 7 and the ctrl is counter + 2
   
         
         #10 rst = 1'b0;
-        #10 ctrl = 2'b01;
+       
         
-        //Test Case #1
+        //Test Case #1 (Count up 2)
         // if you set it to increase by 2 the loser wins
         //
-        #600
+        #590
         ctrl = 2'b00;
          if (who== `LOSER_WON) begin
           Testcases[0] = `Test_Success;
@@ -301,14 +320,104 @@ module MMTB_Final;
         else begin
           Testcases[0] = `Test_Failed;
         end
-        #2400
-        if (who== `WINNER_WON) begin
+        
+        
+      //Test Case #2
+      // Check Loser functionality but by incrementing by 1 (count up 1)
+      // At the end the loser will have 15 points and winner will have 14 points
+      // so Loser wins
+        
+        #1150
+        
+         if (who== `LOSER_WON) begin
           Testcases[1] = `Test_Success;
           end
         else begin
           Testcases[1] = `Test_Failed;
-          
+        end
+        
+        //Test case #3
+        // Put initial value 7 
+        // then keep increasing and decreasing 6-7-6-7
+        
+        init = 1'b1;
+        #10
+        init = 1'b0;
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+         #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+         #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+         #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        #10
+        ctrl=2'b10;
+        #10
+        ctrl=2'b00;
+        
+        #25
+         if (who== `WINNER_WON) begin
+          Testcases[2] = `Test_Success;
           end
+        else begin
+          Testcases[2] = `Test_Failed;
+        end
+        
+        
+        
+        
+        
+      
+      
+  
           
           
           
@@ -316,10 +425,10 @@ module MMTB_Final;
             $display("TestCase#               Status");
         foreach (Testcases[i]) begin
           if(Testcases[i])begin
-            $display("%0d                       Sucess", i);
+            $display("%0d                            Sucess", i+1);
           end
         else begin
-          $display("%0d                         Failed", i);
+          $display("%0d                            Failed", i+1);
         end
       
         
@@ -342,6 +451,4 @@ end
 endmodule 
         
   
-
-
 
